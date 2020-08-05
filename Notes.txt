@@ -1,0 +1,13 @@
+In a loop:
+Ask users what to do using input()
+
+1.
+Show members of opposite sex 10 years older ( Hint: you filter should take note of current member age and increment 
+query result of those + 10 years of the age. sex of returned result should be the opposite sex. i.e if male is searching, return female sex)
+
+2.
+Ask user for desired member country location to chat. use provided input to update user country location and then return all opposite sex members in that location. 
+ensure you filter underage members- 15 years below and your result should show only the first 5 - (i.e use fetchmany() and provide the size as 5)
+
+3.
+Exit the application for those whose age is between 10 - 15 years and print a warning message.

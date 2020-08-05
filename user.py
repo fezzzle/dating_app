@@ -1,29 +1,37 @@
 from db import Database
-import time
 
 class User():
-    def __init__(self, first_name, last_name, age, sex, location):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.age = age
-        self.sex = sex
-        self.location = location
-        self.db = Database()
-        self.cursor = self.db.cursor
-
     sql = """
     INSERT INTO user_data
     (firstName, lastName, sex, age, country_location) VALUES
     (%s, %s, %s, %s, %s);
     """
+
+    def __init__(self, first_name, last_name, age, sex, location):
+        self.db = Database()
+        self.cursor = self.db.cursor
+        self.first_name = first_name
+        self.last_name = last_name
+        self.age = age
+        self.sex = sex
+        self.location = location
+        
+        self.db_funcs()
+
+    def db_funcs(self):
+        self.db.ensure_database()
+        self.db.ensure_table()
+        self.db.insert_data()
     
     def db_add_user(self, name, lastname, sex, age, country):
         try:
             self.cursor.execute(self.sql, (name, lastname, age, sex, country))
             self.db.db.commit()
-            # Get user id also
+            user_id = self.db.db.insert_id()
         except Exception as e:
             print(e)
+        return user_id
+
 
     def db_available_countries(self):
         str_countries = ""
@@ -31,10 +39,8 @@ class User():
             self.cursor.execute(
                 "SELECT DISTINCT country_location FROM user_data;"
             )
-            # print(self.db.cursor.fetchall())
             countries = self.db.cursor.fetchall()
             for country in countries:
-                # print(str(country[0]))
                 str_country = str(country[0])
                 str_countries += str_country + "\n"
 
@@ -43,61 +49,87 @@ class User():
         return str_countries
 
 
-    # Show members of opposite sex 10 years old ( Hint: you filter should take note of current member age and increment
-    def find_usr_10_older(self, user_age, user_location, user_sex):
+    def find_usr_close_range(self, *args):
         print()
         print("*" * 60)
-        print(f"Searching {user_age + 10} year old people to meet in {user_location}...")
+        print(f"Searching at your age range ({args[0]-5}-{args[0]+5}) year old people to meet in {self.location}...")
         print("*" * 60)
         print()
+
+        print(f"args0: {args[0]}")
+        print(f"args1: {args[1]}")
+        print(f"args1: {args[2]}")
         try: 
             self.cursor.execute(f"""
-                SELECT firstName, age 
+                SELECT firstName, age, sex, user_id
+                FROM user_data 
+                WHERE sex = "{args[2]}" and country_location = "{self.location}" and age BETWEEN "{args[0]-5}" and "{args[0]+5}";
+                """
+            )
+            result = self.cursor.fetchall()
+            print(f"LINE 64 in user.py: {result}")
+        except Exception as e:
+            print(e)
+        return result
+
+
+    def find_usr_10_older(self, *args):
+        print()
+        print("*" * 60)
+        print(f"Searching {args[0] + 10} year old people to meet in {self.location}...")
+        print("*" * 60)
+        print()
+
+        try: 
+            self.cursor.execute(f"""
+                SELECT firstName, age, user_id
                 FROM dateNow.user_data 
-                WHERE age >= {user_age + 10} and country_location = "{user_location}" and sex = "{user_sex}";
+                WHERE age = {args[0] + 10} and country_location = "{self.location}" and sex = "{args[2]}";
                 """
             )
             result = self.cursor.fetchall()
         except Exception as e:
             print(e)
-
         return result
+    
+    
+    def find_all(self, *args):
+        print()
+        print("*" * 60)
+        print(f"Searching all opposite gender people to meet in {self.location}...")
+        print("*" * 60)
+        print()
+
+        try: 
+            self.cursor.execute(f"""
+                SELECT firstName, age, user_id
+                FROM dateNow.user_data 
+                WHERE age >= '15' and country_location = "{self.location}" and sex = "{args[2]}";
+                """
+            )
+            result = self.cursor.fetchall()
+        except Exception as e:
+            print(e)
+        return result
+
 
     def change_location(self, *args):
         print("----")
         print(f"Available countries are: \n{self.db_available_countries()}")
         new_location = input("Change the location: ")
         self.location = new_location
+        try: 
+            self.cursor.execute(f"""
+                UPDATE user_data
+                SET country_location = "{new_location}"
+                WHERE user_id = "{args[3]}"
+                """
+            )
+            self.db.db.commit()
+        except Exception as e:
+            print(e)
         print(f"Location changed to: {self.location}")
-
-
-
-    # def task_list(db):
-    #     with db.cursor() as c:
-    #         c.execute(f"SELECT id, task FROM `{TABLE_NAME}` WHERE NOT DONE")
-    #         for row in c.fetchall():
-    #             id_, task = row
-    #             print(f"#{id_}: {task}")
-
-
-    # def add_task(db):
-    #     text = input("Task description: ")
-    #     if text == "":
-    #         print("Cannot insert empty task")
-    #         return
-    #     with db.cursor() as c:
-    #         c.execute(
-    #             f"INSERT INTO `{TABLE_NAME}` (`task`, `done`) VALUES (%s, FALSE)", (text)
-    #         )
-    #         db.commit()
-
-
-    # def close_task(db):
-    #     id_ = input("Task id: ")
-    #     with db.cursor() as c:
-    #         c.execute(f"UPDATE `{TABLE_NAME}` SET `done`=TRUE WHERE `id`=%s", (id_))
-    #         db.commit()
-    #     print(f"Task #{id_} closed")
+        return
 
     def __repr__(self):
         return f"User({self.first_name}, {self.age}, {self.sex}, {self.location})"

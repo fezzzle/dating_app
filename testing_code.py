@@ -1,13 +1,14 @@
-def enter_sex():
-    try:
-        user_sex = input("Please enter your sex (Male/Female): ")
-        print(type(user_sex))
-        print(user_sex)
-        if user_sex != "Male" and user_sex != "Female":
-            raise ValueError
-    except ValueError:
-        print("You must enter Male/Female")
-        enter_sex()
 
 
-enter_sex()
+results = (('Morganne', 50), ('Florida', 48))
+
+
+def show_results(results):
+    print(f"RESULTS: LINE 10: {results}")
+    if not isinstance(results, tuple):
+        return
+    for i, result in enumerate(results):
+        print(f"{i}. {result[0]}, {result[1]}")
+
+
+show_results(results)

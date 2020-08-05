@@ -38,32 +38,27 @@ def enter_location():
 
 if __name__ == "__main__":
 
-    # input("Hello! Welcome to dating app Ponder. Press enter to continue...")
-    # input(
-    #     f"""Our app is only available in those countries:
-    #         1. Estonia
-    #         2. Latvia
-    #         3. Lithuania
-    #         4. Sweden
-    #         5. Russia
-    #         6. Finland
-    #         7. United Arab Emirates
-    #         8. Madagascar
-    #         9. Saudi Arabia
-    #         10. Canada
-    #         Press enter to continue...
-    #     """)
-    # print("Please enter your information: ")
-    # user_name = input("Enter your name: ").capitalize()
-    user_name = "John"
-    # user_last_name = input("Enter your last name: ").capitalize()
-    user_last_name = "Smoth"
-    # user_age = enter_age()
-    user_age = 30
-    # user_sex = enter_sex()
-    user_sex = "Male"
-    # user_location = enter_location()
-    user_location = "Russia"
+    input("Hello! Welcome to dating app Ponder. Press enter to continue...")
+    input(
+        f"""Our app is only available in those countries:
+            1. Estonia
+            2. Latvia
+            3. Lithuania
+            4. Sweden
+            5. Russia
+            6. Finland
+            7. United Arab Emirates
+            8. Madagascar
+            9. Saudi Arabia
+            10. Canada
+            Press enter to continue...
+        """)
+    print("Please enter your information: ")
+    user_name = input("Enter your name: ").capitalize()
+    user_last_name = input("Enter your last name: ").capitalize()
+    user_age = enter_age()
+    user_sex = enter_sex()
+    user_location = enter_location()
     user = User(user_name, user_last_name, user_age, user_sex, user_location)
     # print(f"USER_ID, LINE 88: {user_id}")
 

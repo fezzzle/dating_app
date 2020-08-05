@@ -11,7 +11,7 @@ class Database():
     def __init__(self):
         self.db = pymysql.connect(*self.dbc)
         self.cursor = self.db.cursor()
-        
+
     sql = """
         INSERT INTO user_data
         (user_id, firstName, lastName, sex, age, country_location) VALUES
@@ -27,6 +27,7 @@ class Database():
     def ensure_database(self):
         try:
             self.cursor.execute(f"CREATE SCHEMA IF NOT EXISTS {DATABASE_NAME} DEFAULT CHARACTER SET utf8")
+            # self.cursor.close()
         except Exception as e:
             print(e)
         print("Ensured database is created")
@@ -45,6 +46,7 @@ class Database():
                 );
                 """
             )
+            # self.cursor.close()
         except Exception as e:
             print(e)
         print("Ensured table is created")
@@ -60,7 +62,8 @@ class Database():
                     self.cursor.execute(self.sql, values)
                     if i > 0 and i % 100 == 0:
                         self.db.commit()
+                    # self.cursor.close()
                 self.db.commit()
-            self.db.close()
+            # self.db.close()
         except Exception as e:
             print(e)

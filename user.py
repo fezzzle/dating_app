@@ -26,12 +26,11 @@ class User():
     def db_add_user(self, name, lastname, sex, age, country):
         try:
             self.cursor.execute(self.sql, (name, lastname, age, sex, country))
+            lastrowid = self.cursor.lastrowid
             self.db.db.commit()
-            user_id = self.db.db.insert_id()
         except Exception as e:
             print(e)
-        return user_id
-
+        return lastrowid
 
     def db_available_countries(self):
         str_countries = ""

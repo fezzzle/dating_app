@@ -7,7 +7,6 @@ def gender_search(gender):
         return "Male"
 
 def show_results(results):
-    print(f"LINE 10 in show_results: {results}") # USER_ID is included for debugging
     if not isinstance(results, tuple):
         return
     for i, result in enumerate(results):
@@ -60,11 +59,7 @@ if __name__ == "__main__":
     user_sex = enter_sex()
     user_location = enter_location()
     user = User(user_name, user_last_name, user_age, user_sex, user_location)
-    # print(f"USER_ID, LINE 88: {user_id}")
-
-
-    # countries = user.db_available_countries()
-    # print(f"App is available in those countries: \n{countries}")
+    
     user_id = user.db_add_user(user_name, user_last_name, user_age, user_sex, user_location)
 
     choice_functions = {

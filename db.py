@@ -27,7 +27,6 @@ class Database():
     def ensure_database(self):
         try:
             self.cursor.execute(f"CREATE SCHEMA IF NOT EXISTS {DATABASE_NAME} DEFAULT CHARACTER SET utf8")
-            # self.cursor.close()
         except Exception as e:
             print(e)
         print("Ensured database is created")
@@ -46,7 +45,6 @@ class Database():
                 );
                 """
             )
-            # self.cursor.close()
         except Exception as e:
             print(e)
         print("Ensured table is created")

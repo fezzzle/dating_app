@@ -54,10 +54,7 @@ class User():
         print(f"Searching at your age range ({args[0]-5}-{args[0]+5}) year old people to meet in {self.location}...")
         print("*" * 60)
         print()
-
-        print(f"args0: {args[0]}")
-        print(f"args1: {args[1]}")
-        print(f"args1: {args[2]}")
+        
         try: 
             self.cursor.execute(f"""
                 SELECT firstName, age, sex, user_id

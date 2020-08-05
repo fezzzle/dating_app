@@ -20,7 +20,8 @@ class User():
     def db_add_user(self, name, lastname, sex, age, country):
         try:
             self.cursor.execute(self.sql, (name, lastname, age, sex, country))
-
+            self.db.db.commit()
+            # Get user id also
         except Exception as e:
             print(e)
 
@@ -61,6 +62,14 @@ class User():
             print(e)
 
         return result
+
+    def change_location(self, *args):
+        print("----")
+        print(f"Available countries are: \n{self.db_available_countries()}")
+        new_location = input("Change the location: ")
+        self.location = new_location
+        print(f"Location changed to: {self.location}")
+
 
 
     # def task_list(db):

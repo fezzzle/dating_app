@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
     # input("Hello! Welcome to dating app Ponder. Press enter to continue...")
     # input(
-    #     f"""Welcome to Dating app Ponder. Our app is only available in those countries:
+    #     f"""Our app is only available in those countries:
     #         1. Estonia
     #         2. Latvia
     #         3. Lithuania
@@ -68,9 +68,9 @@ if __name__ == "__main__":
     #     """)
     # print("Please enter your information: ")
     # user_name = input("Enter your name: ").capitalize()
-    user_name = "John"
+    user_name = "Redis"
     # user_last_name = input("Enter your last name: ").capitalize()
-    user_last_name = "Johnson"
+    user_last_name = "Wompf"
     # user_age = enter_age()
 
     # print(f"OUTSIDE THE FUNC: {type(user_age)}, {user_age}")
@@ -79,23 +79,23 @@ if __name__ == "__main__":
     # print(type(user_sex))
     user_sex = "Female"
     # user_location = enter_location()
-    user_location = "Estonia"
+    user_location = "Sweden"
     user = User(user_name, user_last_name, user_age, user_sex, user_location)
-    user.db_add_user(user_name, user_last_name, user_age, user_sex, user_location)
+    # user.db_add_user(user_name, user_last_name, user_age, user_sex, user_location)
 
 
-    countries = user.db_available_countries()
-    print(f"App is available in those countries: \n{countries}")
+    # countries = user.db_available_countries()
+    # print(f"App is available in those countries: \n{countries}")
 
     # choice_functions = {"l": user.find_usr_10_older, "a": user.add_task, "d": user.close_task}
-    choice_functions = {"l": user.find_usr_10_older}
+    choice_functions = {"o": user.find_usr_10_older, "n": user.change_location}
     print("----")
     while True:
         print(
             "What do you want to do?:\n",
-            "l: Search a person 10 year OLDER than you\n",
-            "a: add a new task\n",
-            "d: Mark task as done\n",
+            "o: Search a person 10 year OLDER than you\n",
+            "n: Enter a new location to search\n",
+            # "d: Mark task as done\n",
             "q: quit\n",
         )
         choice = input("> ").lower()
@@ -104,7 +104,7 @@ if __name__ == "__main__":
             break
         elif choice in choice_functions:
             res = choice_functions[choice](user_age, user_location, gender_search(user_sex))
-            show_results(res)
+            # show_results(res)
         else:
             print(f"Unknown choice: '{choice}'. Try again.")
         print("----")
